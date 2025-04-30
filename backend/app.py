@@ -10,18 +10,15 @@ from werkzeug.utils import secure_filename
 import logging
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)  
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Configuration
 DB_PATH = "fingerprint_voting.db"
 IMAGE_DIR = "fingerprints/"
 os.makedirs(IMAGE_DIR, exist_ok=True)
 
-# Function to generate synthetic fingerprint
 def generate_fingerprint(size=(256, 256)):
     img = np.zeros(size, np.uint8)
     noise_gen = PerlinNoise(octaves=6)
@@ -51,7 +48,7 @@ def initialize_db():
             vote_count INTEGER DEFAULT 0
         )
     ''')
-    for candidate in ["Candidate_A", "Candidate_B", "Candidate_C"]:
+    for candidate in ["Tamilaga Vettri Kazhagam", "DMK", "NTK", "BJP"]:
         cursor.execute("INSERT OR IGNORE INTO votes (candidate, vote_count) VALUES (?, 0)", (candidate,))
     conn.commit()
     conn.close()
@@ -150,7 +147,7 @@ def vote():
         fingerprint_file = request.files['fingerprint']
         candidate = request.form['candidate']
         
-        if candidate not in ["Candidate_A", "Candidate_B", "Candidate_C"]:
+        if candidate not in ["Tamilaga Vettri Kazhagam", "DMK", "NTK", "BJP"]:
             return jsonify({"message": "Invalid candidate selection"}), 400
             
         conn = sqlite3.connect(DB_PATH)

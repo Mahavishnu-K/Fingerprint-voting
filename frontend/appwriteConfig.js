@@ -1,4 +1,4 @@
-import { Client, Account, Databases } from 'appwrite';
+import { Client, Account, ID, Databases, Storage, Query } from 'appwrite';
 
 const client = new Client();
 
@@ -8,5 +8,10 @@ client
 
 const account = new Account(client);
 const databases = new Databases(client);
+const storage = new Storage(client);
 
-export { client, account, databases };
+const DATABASE_ID = '68107e44000a5ab2cc85';
+const COLLECTION_ID = '68107e4e0033792df863';
+const STORAGE_BUCKET_ID = '68107e5f001578ed6cc2';
+
+export { client, account, databases, storage, ID, DATABASE_ID, COLLECTION_ID, STORAGE_BUCKET_ID, Query };
